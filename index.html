@@ -1,0 +1,354 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta name="description" content="Official project page for PTIR-GS, a path-traced inverse rendering method with global illumination in 3D Gaussian fields for material estimation and relighting.">
+  <meta name="keywords" content="PTIR-GS, inverse rendering, 3D Gaussian fields, 3D Gaussian splatting, path tracing, global illumination, relighting, material estimation">
+  <meta name="robots" content="index, follow">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>PTIR-GS: Path-Traced Inverse Rendering with Global Illumination in 3D Gaussian Fields</title>
+  <link rel="canonical" href="https://anonymous-1808.github.io/">
+
+  <meta property="og:type" content="article">
+  <meta property="og:title" content="PTIR-GS: Path-Traced Inverse Rendering with Global Illumination in 3D Gaussian Fields">
+  <meta property="og:description" content="Official project page for PTIR-GS, featuring path-traced inverse rendering, material estimation, global illumination modeling, and relighting results.">
+  <meta property="og:url" content="https://anonymous-1808.github.io/">
+  <meta property="og:image" content="https://anonymous-1808.github.io/static/image/teaser.jpg">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="twitter:title" content="PTIR-GS: Path-Traced Inverse Rendering with Global Illumination in 3D Gaussian Fields">
+  <meta name="twitter:description" content="Path-traced inverse rendering with global illumination in 3D Gaussian fields.">
+  <meta name="twitter:image" content="https://anonymous-1808.github.io/static/image/teaser.jpg">
+
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "ScholarlyArticle",
+    "headline": "Path-Traced Inverse Rendering with Global Illumination in 3D Gaussian Fields",
+    "name": "PTIR-GS",
+    "datePublished": "2026-06-08",
+    "dateModified": "2026-06-29",
+    "url": "https://anonymous-1808.github.io/",
+    "image": "https://anonymous-1808.github.io/static/image/teaser.jpg",
+    "description": "PTIR-GS is a path-traced inverse rendering method that models global illumination in 3D Gaussian fields for material estimation and relighting."
+  }
+  </script>
+
+  <link href="https://fonts.googleapis.com/css?family=Google+Sans|Noto+Sans|Castoro" rel="stylesheet">
+
+  <link rel="stylesheet" href="./static/css/bulma.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
+  <link rel="stylesheet" href="./static/css/index.css">
+
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script defer src="./static/js/fontawesome.all.min.js"></script>
+  <script src="./static/js/index.js"></script>
+
+  <!-- MathJax -->
+  <script>
+    MathJax = {
+      tex: {
+        inlineMath: [['$', '$'], ['\\(', '\\)']],
+        displayMath: [['$$', '$$'], ['\\[', '\\]']],
+        processEscapes: true,
+        tags: 'all',
+      },
+      svg: {
+        fontCache: 'global'
+      }
+    };
+  </script>
+  <script type="text/javascript" id="MathJax-script" async
+    src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-chtml.js">
+    </script>
+</head>
+
+<body>
+
+
+  <section class="hero publication-hero">
+    <div class="hero-body">
+      <div class="container is-max-desktop">
+        <div class="columns is-centered">
+          <div class="column has-text-centered">
+            <h1 class="title is-1 publication-title">Path-Traced Inverse Rendering with Global Illumination in 3D Gaussian Fields</h1>
+
+            <div class="column has-text-centered">
+              <div class="publication-links">
+                <!-- Code Link. -->
+                
+                <span class="link-block">
+                  <a href="https://github.com/anonymous-1808/PTIR-GS.git" target="_blank" rel="noopener noreferrer"
+                    class="external-link button is-normal is-rounded is-dark">
+                    <span class="icon">
+                      <i class="fab fa-github"></i>
+                    </span>
+                    <span>Code</span>
+                  </a>
+                </span>
+                
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section teaser-section">
+    <div class="container is-max-desktop">
+
+      <div class="content">
+<div class="columns is-centered has-text-centered">
+    <div class="column is-full">
+        <img src="static/image/teaser.jpg" alt="PTIR-GS Teaser" style="width: 100%;" />  
+    </div>
+</div>
+
+<!-- Using HTML to center the abstract -->
+<div class="columns is-centered has-text-centered">
+    <div class="column is-four-fifths">
+        <h2>Abstract</h2>
+        <div class="content has-text-justified">
+          <p>
+            Ray tracing enables 3D Gaussian fields to serve as a representation for physically based light transport. Faithful inverse rendering requires forward rendering and backward optimization to be defined within a consistent light-transport pipeline. Existing inverse rendering methods estimate G-buffers via splatting and optimize materials in screen space, tying the recovered properties to a rasterization-based pipeline. This pipeline mismatch, together with simplified rendering equations that neglect indirect illumination, often leads to inconsistent shading, visible artifacts, and inaccurate material-lighting estimation under path-traced rendering. Therefore, we propose <b>PTIR-GS</b>, a splatting-free path-traced inverse rendering framework for 3D Gaussian fields, where forward light transport and backward gradient propagation are defined within a unified ray-tracing pipeline. Our key idea is to define a path-space equivalent interaction model for overlapping Gaussian primitives, under which Monte-Carlo-based path tracing is unbiased for the induced light-transport integral, while pathwise gradients are replayed over the same ray-traced interactions rather than splatting-derived screen-space buffers. The framework optimizes materials and a compact Spherical-Gaussian environment under the full rendering equation with ray-traced visibility and multi-bounce light transport. Extensive experiments demonstrate competitive material inversion and improved path-traced rendering quality, producing more plausible shadows, reflections, and relighting results under global illumination.
+          </p>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h2 id="framework">Framework</h2>
+<div class="columns is-centered has-text-centered">
+    <div class="column is-full">
+        <img src="static/image/pipeline.jpg" alt="PTIR-GS Framework" style="width: 100%;" />
+    </div>
+</div>
+<div class="columns is-centered">
+    <div class="column is-full">
+        <div class="content has-text-justified">
+            <p>
+                Our framework jointly defines forward rendering and backward optimization for 3D Gaussian fields within a unified ray-tracing pipeline. Given a 3D Gaussian scene, we construct ray-traced equivalent surface interactions, evaluate visibility and multi-bounce path-traced light transport under the full rendering equation, and optimize learnable Spherical-Gaussian environment illumination. Multiple importance sampling reduces the variance of incident radiance estimation. Gradients are propagated through path replay backpropagation via equivalent interactions, ensuring consistency between backward optimization and the forward ray-traced transport paths.
+            </p>
+        </div>
+    </div>
+</div>
+
+<hr />
+
+<h2 id="results">Results</h2>
+
+<!-- ### TensoIR Benchmark
+
+![TensoIR Quantitative Results](/static/image/tensoir_quantitative.png)
+*Quantitative comparisons on TensoIR dataset. RadioGS achieves 37.86 PSNR (NVS), 3.689° MAE (Normal), 31.05 PSNR (Albedo), and 32.09 PSNR (Relighting).* -->
+
+<h3 id="benchmark-qualitative-comparisons">Benchmark Qualitative Comparisons</h3>
+<ul>
+  <li>We show NVS, material decomposition, and relighting results on the TensoIR and Synthetic4Relight datasets. PTIR-GS achieves consistent qualitative results. Click the buttons above to switch scenes.</li>
+</ul>
+<div class="columns is-centered has-text-centered">
+    <div class="column is-full">
+        <div class="scene-selection-buttons qualitative-scene-buttons">
+            <div class="buttons is-centered qualitative-button-row">
+                <button class="button is-dark qualitative-button is-active" id="qualitative-armadillo-button" onclick="selectScene('qualitative', 'armadillo')">Armadillo</button>
+                <button class="button qualitative-button" id="qualitative-hotdog-button" onclick="selectScene('qualitative', 'hotdog')">Hotdog</button>
+                <button class="button qualitative-button" id="qualitative-lego-button" onclick="selectScene('qualitative', 'lego')">Lego</button>
+                <button class="button qualitative-button" id="qualitative-ficus-button" onclick="selectScene('qualitative', 'ficus')">Ficus</button>
+            </div>
+            <div class="buttons is-centered qualitative-button-row">
+                <button class="button qualitative-button" id="qualitative-airballoons-button" onclick="selectScene('qualitative', 'airballoons')">Air Balloons</button>
+                <button class="button qualitative-button" id="qualitative-chair-button" onclick="selectScene('qualitative', 'chair')">Chair</button>
+                <button class="button qualitative-button" id="qualitative-jugs-button" onclick="selectScene('qualitative', 'jugs')">Jugs</button>
+            </div>
+        </div>
+        <div class="image-container">
+            <img id="qualitative-image" class="fullscreen-image-trigger" src="static/image/qualitative_results/armadillo.png" alt="Armadillo qualitative results" style="width: 100%;" data-fullscreen-image />
+        </div>
+    </div>
+</div>
+
+<div class="image-lightbox" id="image-lightbox" aria-hidden="true">
+    <button class="image-lightbox-close" type="button" aria-label="Close full screen image">&times;</button>
+    <img id="image-lightbox-image" src="" alt="" />
+</div>
+
+<h3 id="indirect-illumination-modeling-comparison">Indirect Illumination Modeling Comparison</h3>
+<ul>
+  <li>We show scenes with obvious indirect illumination in the TensoIR and Synthetic4Relight datasets. PTIR-GS provides more realistic and detailed indirect illumination than the others. Click the buttons above to switch scenes.</li>
+</ul>
+<div class="columns is-centered has-text-centered">
+    <div class="column is-full">
+        <div class="scene-selection-buttons buttons is-centered">
+            <button class="button is-dark indirect-button is-active" id="indirect-hotdog-button" onclick="selectScene('indirect', 'hotdog')">Hotdog</button>
+            <button class="button indirect-button" id="indirect-lego-button" onclick="selectScene('indirect', 'lego')">Lego</button>
+            <button class="button indirect-button" id="indirect-airbaloons-button" onclick="selectScene('indirect', 'airbaloons')">Air Balloons</button>
+            <button class="button indirect-button" id="indirect-chair-button" onclick="selectScene('indirect', 'chair')">Chair</button>
+        </div>
+        <div class="image-container">
+            <img id="indirect-image" class="fullscreen-image-trigger" src="static/image/indirect/hotdog1.png" alt="Indirect Illumination Comparison" style="width: 100%;" data-fullscreen-image />
+        </div>
+        <!-- <p class="is-italic">Indirect illumination modeling comparison. We made our custom dataset based on TensoIR to obtain ground truth (GT) indirect illumination. RadioGS provides realistic and detailed indirect illumination, while IRGS overestimates and SVG-IR underestimates intensity. Click the buttons above to switch scenes.</p> -->
+    </div>
+</div>
+
+<h3 id="light-only-display">Light Only Display</h3>
+<ul>
+  <li>We show light-only rendering results to demonstrate that PTIR-GS recovers plausible illumination while preserving scene geometry and object details. Drag the sliders to compare the novel view synthesis results with the light-only components.</li>
+</ul>
+<div class="columns is-centered is-multiline has-text-centered comparison-row">
+    <div class="column is-one-quarter">
+        <div class="comparison-slider" data-before-label="NVS" data-after-label="Light Only">
+            <img class="comparison-image comparison-image-before" src="static/image/light/armadillo0.png" alt="Armadillo NVS result" />
+            <div class="comparison-after">
+                <img class="comparison-image comparison-image-after" src="static/image/light/armadillo1.png" alt="Armadillo light only result" />
+            </div>
+            <div class="comparison-divider" aria-hidden="true"></div>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Compare Armadillo NVS and light only results" />
+        </div>
+    </div>
+    <div class="column is-one-quarter">
+        <div class="comparison-slider" data-before-label="NVS" data-after-label="Light Only">
+            <img class="comparison-image comparison-image-before" src="static/image/light/hotdog0.png" alt="Hotdog NVS result" />
+            <div class="comparison-after">
+                <img class="comparison-image comparison-image-after" src="static/image/light/hotdog1.png" alt="Hotdog light only result" />
+            </div>
+            <div class="comparison-divider" aria-hidden="true"></div>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Compare Hotdog NVS and light only results" />
+        </div>
+    </div>
+    <div class="column is-one-quarter">
+        <div class="comparison-slider" data-before-label="NVS" data-after-label="Light Only">
+            <img class="comparison-image comparison-image-before" src="static/image/light/lego0.png" alt="Lego NVS result" />
+            <div class="comparison-after">
+                <img class="comparison-image comparison-image-after" src="static/image/light/lego1.png" alt="Lego light only result" />
+            </div>
+            <div class="comparison-divider" aria-hidden="true"></div>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Compare Lego NVS and light only results" />
+        </div>
+    </div>
+    <div class="column is-one-quarter">
+        <div class="comparison-slider" data-before-label="NVS" data-after-label="Light Only">
+            <img class="comparison-image comparison-image-before" src="static/image/light/ficus0.png" alt="Ficus NVS result" />
+            <div class="comparison-after">
+                <img class="comparison-image comparison-image-after" src="static/image/light/ficus1.png" alt="Ficus light only result" />
+            </div>
+            <div class="comparison-divider" aria-hidden="true"></div>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Compare Ficus NVS and light only results" />
+        </div>
+    </div>
+    <div class="column is-one-quarter">
+        <div class="comparison-slider" data-before-label="NVS" data-after-label="Light Only">
+            <img class="comparison-image comparison-image-before" src="static/image/light/airballoons0.png" alt="Air Balloons NVS result" />
+            <div class="comparison-after">
+                <img class="comparison-image comparison-image-after" src="static/image/light/airballoons1.png" alt="Air Balloons light only result" />
+            </div>
+            <div class="comparison-divider" aria-hidden="true"></div>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Compare Air Balloons NVS and light only results" />
+        </div>
+    </div>
+    <div class="column is-one-quarter">
+        <div class="comparison-slider" data-before-label="NVS" data-after-label="Light Only">
+            <img class="comparison-image comparison-image-before" src="static/image/light/chair0.png" alt="Chair NVS result" />
+            <div class="comparison-after">
+                <img class="comparison-image comparison-image-after" src="static/image/light/chair1.png" alt="Chair light only result" />
+            </div>
+            <div class="comparison-divider" aria-hidden="true"></div>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Compare Chair NVS and light only results" />
+        </div>
+    </div>
+    <div class="column is-one-quarter">
+        <div class="comparison-slider" data-before-label="NVS" data-after-label="Light Only">
+            <img class="comparison-image comparison-image-before" src="static/image/light/jugs0.png" alt="Jugs NVS result" />
+            <div class="comparison-after">
+                <img class="comparison-image comparison-image-after" src="static/image/light/jugs1.png" alt="Jugs light only result" />
+            </div>
+            <div class="comparison-divider" aria-hidden="true"></div>
+            <input class="comparison-range" type="range" min="0" max="100" value="50" aria-label="Compare Jugs NVS and light only results" />
+        </div>
+    </div>
+</div>
+
+<h3 id="arbitrary-light-relighting">Arbitrary Light Relighting</h3>
+<ul>
+  <li>PTIR-GS is fully based on path tracing and supports relighting with arbitrary light sources, such as point lights, area lights, and environment maps.</li>
+</ul>
+<div class="columns is-centered is-multiline has-text-centered relighting-row">
+    <div class="column is-half">
+        <img class="relighting-gif" src="static/image/gif/garden_env_pingpong.gif" alt="Garden Environment Relighting" />
+    </div>
+    <div class="column is-half">
+        <img class="relighting-gif" src="static/image/gif/kitchen_env_pingpong.gif" alt="Kitchen Environment Relighting" />
+    </div>
+    <div class="column is-half">
+        <img class="relighting-gif" src="static/image/gif/garden.gif" alt="Garden Relighting" />
+    </div>
+    <div class="column is-half">
+        <img class="relighting-gif" src="static/image/gif/kitchen.gif" alt="Kitchen Relighting" />
+    </div>
+</div>
+
+<h3 id="lego-normal-qualitative-comparisons">Lego Normal Qualitative Comparisons</h3>
+<ul>
+  <li>PTIR-GS usually obtains better geometric structures, although we do not deeply explore geometry in this work. Below, we compare the Lego normal maps of different methods (w/o any prior).</li>
+</ul>
+<div class="columns is-centered is-multiline has-text-centered normal-comparison-row">
+    <div class="column normal-comparison-column normal-comparison-column-third">
+        <figure>
+            <img class="fullscreen-image-trigger" src="static/image/normal/r3dg.png" alt="Lego normals produced by R3DG" data-fullscreen-image />
+            <figcaption>R3DG</figcaption>
+        </figure>
+    </div>
+    <div class="column normal-comparison-column normal-comparison-column-third">
+        <figure>
+            <img class="fullscreen-image-trigger" src="static/image/normal/svgir.png" alt="Lego normals produced by SVG-IR" data-fullscreen-image />
+            <figcaption>SVG-IR</figcaption>
+        </figure>
+    </div>
+    <div class="column normal-comparison-column normal-comparison-column-third">
+        <figure>
+            <img class="fullscreen-image-trigger" src="static/image/normal/irgs.png" alt="Lego normals produced by IRGS" data-fullscreen-image />
+            <figcaption>IRGS</figcaption>
+        </figure>
+    </div>
+    <div class="column normal-comparison-column normal-comparison-column-half">
+        <figure>
+            <img class="fullscreen-image-trigger" src="static/image/normal/ours.png" alt="Lego normals produced by PTIR-GS" data-fullscreen-image />
+            <figcaption>Ours</figcaption>
+        </figure>
+    </div>
+    <div class="column normal-comparison-column normal-comparison-column-half">
+        <figure>
+            <img class="fullscreen-image-trigger" src="static/image/normal/gt.png" alt="Lego ground-truth normals" data-fullscreen-image />
+            <figcaption>GT</figcaption>
+        </figure>
+    </div>
+</div>
+<ul>
+  <li>A possible reason is that, under the ray-tracing framework, the GS depth is determined by its peak response along the ray, rather than by the Gaussian center depth as in splatting, leading to more accurate depth estimation.</li>
+</ul>
+      </div>
+
+    </div>
+  </section>
+
+  <footer class="footer">
+    <div class="container">
+      <div class="columns is-centered">
+        <div class="column is-8">
+          <div class="content">
+            <p>
+              <a href="https://anonymous-1808.github.io/">Tools and project pages</a> ·
+              Website template borrowed from <a href="https://github.com/nerfies/nerfies.github.io">NeRFies</a> and <a
+                href="https://github.com/shunzh/project_website">the Jekyll fork</a>.
+            </p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+</body>
+
+</html>
